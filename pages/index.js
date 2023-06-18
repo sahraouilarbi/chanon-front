@@ -1,115 +1,202 @@
-import Head from 'next/head';
+// import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import SendIcon from '@mui/icons-material/Send';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import ClearIcon from '@mui/icons-material/Clear';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Typewriter } from 'react-simple-typewriter'
 export default function Home() {
+  const [data, setData] = useState([]);
+  const [isSend, setIsSend] = useState(false);
+  const [formData, setFormData] = useState({
+    labelname: ''
+  });
+  const { labelname } = formData;
+
+  const [detailMsg, setMesgDetail] = useState('')
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  async function onSubmit() {
+    await axios.get('http://localhost:5000/fetch-all-data').then((response) => {
+      console.log(response.data.data);
+      setData(response.data.data);
+      console.log('data', data);
+      setFormData({
+        labelname: ''
+      });
+      setIsSend(false);
+    }).catch((error) => {
+      console.log('Error  ', error);
+    })
+  }
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const [lnge, setLnge] = useState('ar');
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (er) => {
+    setLnge(er);
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    onSubmit();
+  }, []);
+
+
+  const filter = async e => {
+    e.preventDefault();
+    console.log('label name : ', labelname);
+    await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}`).then((response) => {
+      console.log('response', response);
+      setData(response.data.data);
+      console.log('data', data);
+      setIsSend(true);
+      infoBox();
+    }).catch((error) => {
+      console.log('Error  ', error);
+    })
+  }
+
+
+  const infoBox = async e => {
+    e.preventDefault();
+    console.log('label name : ', labelname);
+    await axios.get(`http://localhost:5000/api/scrap?name=${labelname}&lng=${lnge}`).then((response) => {
+      console.log('response', response.data);
+      setMesgDetail(response.data);
+      // setData(response.data.data);
+      // console.log('data', data);
+      // setIsSend(true);
+    }).catch((error) => {
+      console.log('Error  ', error);
+    })
+  }
+
+
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <div className={styles.test}>
+      <div className={styles.histDiv}>
+        <div className={styles.title}>
+          <p className={styles.p}>Chanon - Project</p>
         </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
+        <div className={styles.histo}>
+          <p>Historique</p>
+          {
+            data.map((m, ind) => {
+              return (
+                <div>
+                  <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                      <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
+                      <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
+                    </div>
+                    <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
+                  </div>
+                  <div className={styles.divider} />
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
+      <div className={styles.detailDiv}>
+        <div className={styles.detail}>
+          <div className={styles.header}>
+            {/* <p className={styles.p}>Chanon</p> */}
+            <Button
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              style={{ color: 'black', fontWeight: 'bold' }}
+            >
+              {lnge}
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              // onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={() => handleClose('ar')}>Arabe</MenuItem>
+              <MenuItem onClick={() => handleClose('fr')}>French</MenuItem>
+              <MenuItem onClick={() => handleClose('en')}>Englishe</MenuItem>
+            </Menu>
+          </div>
+          <div className={styles.description}>
+            <h2>{labelname} :</h2>
+            <span>{detailMsg}</span>
+          </div>
+        </div>
+        <div className={styles.search} >
+          <input
+            style={{ height: '40px', width: '90%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
+            name='labelname'
+            type='text'
+            id='labelname'
+            placeholder='Search ....'
+            onChange={onChange}
+            value={labelname}
+            // ref={inputRef}
+            required
+            
+            // onKeyDown={handleKeyDownRoll}
+          />
+          <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm">
+            {
+              isSend ? <ClearIcon /> : <SendIcon />
+            }
+          </IconButton>
+        </div>
+      </div>
     </div>
   )
+  // return (
+  //   // <div className={styles.container}>
+  //     <div className={styles.parent} >
+  //       <div className={styles.histo}>
+  //         <div className={styles.divtophis}>
+  //           <h1>Historique</h1>
+  //         </div>
+  //         <div className={styles.divBotonhis}></div>
+  //       </div>
+
+  //       <div className={styles.details}>
+  //         <div className={styles.detail}>
+  //           <div className={styles.divtopdetail}>
+  //             <h1>Chanon-Project</h1>
+  //           </div>
+  //           <div className={styles.divBotondetail}></div>
+  //         </div>
+  //         <div className={styles.search}>
+  //           <input
+  //             style={{ height: '55px', width: '100%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
+  //             name='search'
+  //             type='search'
+  //             id='search'
+  //             placeholder='search'
+  //             // onChange={handleChangePlate}
+  //             // value={plate}
+  //             // ref={inputRef}
+  //             required
+  //           // onKeyDown={handleKeyDownRoll}
+  //           />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   // </div>
+  // )
 }
