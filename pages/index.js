@@ -10,19 +10,21 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Typewriter } from 'react-simple-typewriter'
+import { Typewriter } from 'react-simple-typewriter';
 export default function Home() {
-  const [data, setData] = useState([]);
-  const [isSend, setIsSend] = useState(false);
+  // State variables
+  const [data, setData] = useState([]); // State for storing fetched data
+  const [isSend, setIsSend] = useState(false); // State for determining if the search button is for sending or clearing
   const [formData, setFormData] = useState({
     labelname: ''
-  });
-  const { labelname } = formData;
+  }); // State for form data
+  const { labelname } = formData; // Destructuring labelname from formData
 
-  const [detailMsg, setMesgDetail] = useState('')
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [detailMsg, setMesgDetail] = useState(''); // State for storing detailed message
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value }); // Function to handle form field changes
 
   async function onSubmit() {
+    // Function to handle form submission
     await axios.get('http://localhost:5000/fetch-all-data').then((response) => {
       console.log(response.data.data);
       setData(response.data.data);
@@ -35,6 +37,8 @@ export default function Home() {
       console.log('Error  ', error);
     })
   }
+
+  // State variables and functions for menu dropdown
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [lnge, setLnge] = useState('ar');
@@ -47,11 +51,13 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // Perform initial data fetch
     onSubmit();
   }, []);
 
 
   const filter = async e => {
+    // Function to handle filtering
     e.preventDefault();
     console.log('label name : ', labelname);
     await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}`).then((response) => {
@@ -67,6 +73,7 @@ export default function Home() {
 
 
   const infoBox = async e => {
+    // Function to handle displaying detailed message
     e.preventDefault();
     console.log('label name : ', labelname);
     await axios.get(`http://localhost:5000/api/scrap?name=${labelname}&lng=${lnge}`).then((response) => {
@@ -131,9 +138,9 @@ export default function Home() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={() => handleClose('ar')}>Arabe</MenuItem>
+              <MenuItem onClick={() => handleClose('ar')}>Arabic</MenuItem>
               <MenuItem onClick={() => handleClose('fr')}>French</MenuItem>
-              <MenuItem onClick={() => handleClose('en')}>Englishe</MenuItem>
+              <MenuItem onClick={() => handleClose('en')}>English</MenuItem>
             </Menu>
           </div>
           <div className={styles.description}>
