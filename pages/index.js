@@ -1,4 +1,4 @@
-// import Head from 'next/head';
+import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -39,15 +39,25 @@ export default function Home() {
   }
 
   // State variables and functions for menu dropdown
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorElLnge, setAnchorElLnge] = useState(null);
+  const [anchorElDate, setAnchorElDate] = useState(null);
+  const openLnge = Boolean(anchorElLnge);
+  const openDate = Boolean(anchorElDate);
   const [lnge, setLnge] = useState('ar');
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [dateIntervale, setDate] = useState('2016');
+  const handleClickLnge = (event) => {
+    setAnchorElLnge(event.currentTarget);
   };
-  const handleClose = (er) => {
+  const handleCloseLnge = (er) => {
     setLnge(er);
-    setAnchorEl(null);
+    setAnchorElLnge(null);
+  };
+  const handleClickDate = (event) => {
+    setAnchorElDate(event.currentTarget);
+  };
+  const handleCloseDate = (er) => {
+    setDate(er);
+    setAnchorElDate(null);
   };
 
   useEffect(() => {
@@ -90,86 +100,126 @@ export default function Home() {
 
 
   return (
-    <div className={styles.test}>
-      <div className={styles.histDiv}>
-        <div className={styles.title}>
-          <p className={styles.p}>Chanon - Project</p>
-        </div>
-        <div className={styles.histo}>
-          <p>Historique</p>
-          {
-            data.map((m, ind) => {
-              return (
-                <div>
-                  <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
-                      <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
-                    </div>
-                    <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
-                  </div>
-                  <div className={styles.divider} />
-                </div>
-              )
-            })
-          }
-        </div>
-      </div>
-      <div className={styles.detailDiv}>
-        <div className={styles.detail}>
-          <div className={styles.header}>
-            {/* <p className={styles.p}>Chanon</p> */}
-            <Button
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-              style={{ color: 'black', fontWeight: 'bold' }}
-            >
-              {lnge}
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              // onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={() => handleClose('ar')}>Arabic</MenuItem>
-              <MenuItem onClick={() => handleClose('fr')}>French</MenuItem>
-              <MenuItem onClick={() => handleClose('en')}>English</MenuItem>
-            </Menu>
+    <div>
+      <Head>
+        <title>Chanon Project</title>
+      </Head>
+      <div className={styles.test}>
+        <div className={styles.histDiv}>
+          <div className={styles.title}>
+            <p className={styles.p}>Chanon - Project</p>
           </div>
-          <div className={styles.description}>
-            <h2>{labelname} :</h2>
-            <span>{detailMsg}</span>
-          </div>
-        </div>
-        <div className={styles.search} >
-          <input
-            style={{ height: '40px', width: '90%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
-            name='labelname'
-            type='text'
-            id='labelname'
-            placeholder='Search ....'
-            onChange={onChange}
-            value={labelname}
-            // ref={inputRef}
-            required
-            
-            // onKeyDown={handleKeyDownRoll}
-          />
-          <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm">
+          <div className={styles.histo}>
+            <p>Historique</p>
             {
-              isSend ? <ClearIcon /> : <SendIcon />
+              data.map((m, ind) => {
+                return (
+                  <div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
+                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
+                      </div>
+                      <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
+                    </div>
+                    <div className={styles.divider} />
+                  </div>
+                )
+              })
             }
-          </IconButton>
+          </div>
+          {/* histo */}
         </div>
+        {/* histDiv */}
+        <div className={styles.detailDiv}>
+          <div className={styles.detail}>
+            <div className={styles.header}>
+              {/* <p className={styles.p}>Chanon</p> */}
+              <Button
+                id="date-button"
+                aria-controls={openDate ? 'date-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openDate ? 'true' : undefined}
+                onClick={handleClickDate}
+                style={{ color: 'black', fontWeight: 'bold' }}
+              >
+                {dateIntervale}
+              </Button>
+              <Menu
+                id="date-menu"
+                anchorEl={anchorElDate}
+                open={openDate}
+                MenuListProps={{
+                  'aria-labelledby': 'date-button',
+                }}
+              >
+                <MenuItem onClick={() => handleCloseDate('2022')}>2022</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2021')}>2021</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2020')}>2020</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2019')}>2019</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2018')}>2018</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2017')}>2017</MenuItem>
+                <MenuItem onClick={() => handleCloseDate('2016')}>2016</MenuItem>
+              </Menu>
+              <span>&nbsp;</span>
+              <Button
+                id="basic-button"
+                aria-controls={openLnge ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openLnge ? 'true' : undefined}
+                onClick={handleClickLnge}
+                style={{ color: 'black', fontWeight: 'bold' }}
+              >
+                {lnge}
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorElLnge}
+                open={openLnge}
+                // onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={() => handleCloseLnge('ar')}>Arabic</MenuItem>
+                <MenuItem onClick={() => handleCloseLnge('fr')}>French</MenuItem>
+                <MenuItem onClick={() => handleCloseLnge('en')}>English</MenuItem>
+              </Menu>
+            </div>
+            <div className={styles.description}>
+              <h2>{labelname} :</h2>
+              <span>{detailMsg}</span>
+            </div>
+            {/* description */}
+          </div>
+          {/* detail */}
+          <div className={styles.search} >
+            <input
+              style={{ height: '40px', width: '90%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
+              name='labelname'
+              type='text'
+              id='labelname'
+              placeholder='Search ...'
+              onChange={onChange}
+              value={labelname}
+              // ref={inputRef}
+              required
+              
+              // onKeyDown={handleKeyDownRoll}
+            />
+            <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm">
+              {
+                isSend ? <ClearIcon /> : <SendIcon />
+              }
+            </IconButton>
+          </div>
+          {/* Search  */}
+        </div>
+        {/* detailDiv */}
       </div>
+      {/* test */}
     </div>
+    // </div>
   )
   // return (
   //   // <div className={styles.container}>
