@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import homeStyles from '../styles/Home.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
@@ -100,50 +100,32 @@ export default function Home() {
 
 
   return (
-    <div>
+    <div className={homeStyles.main}>
+      {/* ----------------------------- APP META HEADER ------------------- */}
       <Head>
         <title>Chanon Project</title>
       </Head>
-      <div className={styles.test}>
-        <div className={styles.histDiv}>
-          <div className={styles.title}>
-            <p className={styles.p}>Chanon - Project</p>
+
+      {/* ----------------------------- VIEWPORT HEADER ------------------- */}
+      <div className={`${homeStyles.header} ${homeStyles.backgroundColor000814} ${homeStyles.colorWhite}`}>
+        <div>
+          {/* ------------------------- PROJECT NAME ---------------------- */}
+          <div className={homeStyles.headerTitle}>
+            <h2 className={homeStyles.h2}>Chanon - Project</h2>
           </div>
-          <div className={styles.histo}>
-            <p>Historique</p>
-            {
-              data.map((m, ind) => {
-                return (
-                  <div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
-                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
-                      </div>
-                      <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
-                    </div>
-                    <div className={styles.divider} />
-                  </div>
-                )
-              })
-            }
-          </div>
-          {/* histo */}
         </div>
-        {/* histDiv */}
-        <div className={styles.detailDiv}>
-          <div className={styles.detail}>
-            <div className={styles.header}>
-              {/* <p className={styles.p}>Chanon</p> */}
-              <Button
+
+        {/* --------------------------- DATE SELECTOR --------------------- */}
+        <div>
+          <Button
                 id="date-button"
                 aria-controls={openDate ? 'date-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={openDate ? 'true' : undefined}
                 onClick={handleClickDate}
-                style={{ color: 'black', fontWeight: 'bold' }}
+                style={{color: 'white' , fontWeight: 'bold' }}
               >
-                {dateIntervale}
+                {dateIntervale} <span>&#x25BC;</span>
               </Button>
               <Menu
                 id="date-menu"
@@ -161,16 +143,19 @@ export default function Home() {
                 <MenuItem onClick={() => handleCloseDate('2017')}>2017</MenuItem>
                 <MenuItem onClick={() => handleCloseDate('2016')}>2016</MenuItem>
               </Menu>
-              <span>&nbsp;</span>
-              <Button
+        </div>
+
+        {/* ------------------------- LANG SELECTOR ----------------------- */}
+        <div>
+          <Button
                 id="basic-button"
                 aria-controls={openLnge ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={openLnge ? 'true' : undefined}
                 onClick={handleClickLnge}
-                style={{ color: 'black', fontWeight: 'bold' }}
+                style={{ color: 'white', fontWeight: 'bold' }}
               >
-                {lnge}
+                {lnge} <span>&#x25BC;</span>
               </Button>
               <Menu
                 id="basic-menu"
@@ -185,21 +170,52 @@ export default function Home() {
                 <MenuItem onClick={() => handleCloseLnge('fr')}>French</MenuItem>
                 <MenuItem onClick={() => handleCloseLnge('en')}>English</MenuItem>
               </Menu>
-            </div>
-            <div className={styles.description}>
+        </div>
+      </div>
+
+      {/* ------------------------- CONTAINER FULL WIDTH ------------------ */}
+      <div className={homeStyles.containerFullWidth}>
+        <div className={`${homeStyles.sidebar} ${homeStyles.backgroundColor001D3D} ${homeStyles.colorWhite}`}>
+
+          <div className={homeStyles.histo}>
+            <h3 className={homeStyles.h3}>Historique</h3>
+            {
+              data.map((m, ind) => {
+                return (
+                  <div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
+                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
+                      </div>
+                      <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
+                    </div>
+                    <div className={homeStyles.divider} />
+                  </div>
+                )
+              })
+            }
+          </div>
+          {/* histo */}
+        </div>
+        {/* histDiv */}
+        <div className={homeStyles.detailDiv}>
+          <div className={homeStyles.detail}>
+            <div className={homeStyles.description}>
               <h2>{labelname} :</h2>
               <span>{detailMsg}</span>
             </div>
             {/* description */}
           </div>
           {/* detail */}
-          <div className={styles.search} >
+          <div className={`${homeStyles.search} ${homeStyles.backgroundColorFFC300}`} >
             <input
               style={{ height: '40px', width: '90%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
               name='labelname'
               type='text'
               id='labelname'
-              placeholder='Search ...'
+              placeholder={lnge=='en' ? 'Search ...' : lnge=='fr' ? 'Rechercher ...' : 'ابحث ...'}
+              dir={lnge=='ar' ? 'rtl' : 'ltr'}
               onChange={onChange}
               value={labelname}
               // ref={inputRef}
@@ -219,41 +235,5 @@ export default function Home() {
       </div>
       {/* test */}
     </div>
-    // </div>
   )
-  // return (
-  //   // <div className={styles.container}>
-  //     <div className={styles.parent} >
-  //       <div className={styles.histo}>
-  //         <div className={styles.divtophis}>
-  //           <h1>Historique</h1>
-  //         </div>
-  //         <div className={styles.divBotonhis}></div>
-  //       </div>
-
-  //       <div className={styles.details}>
-  //         <div className={styles.detail}>
-  //           <div className={styles.divtopdetail}>
-  //             <h1>Chanon-Project</h1>
-  //           </div>
-  //           <div className={styles.divBotondetail}></div>
-  //         </div>
-  //         <div className={styles.search}>
-  //           <input
-  //             style={{ height: '55px', width: '100%', border: 'solid 2px grey', borderRadius: '10px', paddingLeft: '8px', paddingRight: '8px' }}
-  //             name='search'
-  //             type='search'
-  //             id='search'
-  //             placeholder='search'
-  //             // onChange={handleChangePlate}
-  //             // value={plate}
-  //             // ref={inputRef}
-  //             required
-  //           // onKeyDown={handleKeyDownRoll}
-  //           />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   // </div>
-  // )
 }

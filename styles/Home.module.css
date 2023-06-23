@@ -1,5 +1,36 @@
-.test {
-  height: 98vh;
+.h2 {
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+.h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.main{
+  width: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.headerTitle {
+  width: 100%;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+
+.containerFullWidth {
+  height: 85%;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -8,43 +39,41 @@
   flex-direction: row;
 }
 
-.histDiv {
-  width: 33%;
+/**
+ * SIDEBAR
+ */
+.sidebar {
+  width: 33.3333333333%;
   /* height: 96vh; */
   display: flex;
   flex-direction: column;
-}
-
-.detailDiv {
-  width: 82%;
-  /* height: 98vh; */
-  display: flex;
-  flex-direction: column;
-  /* background-color: aquamarine; */
-}
-
-.title {
-  /* height: 8vh; */
-  width: 100%;
-  background-color: grey;
-  display: flex;
-  justify-content: start;
-  align-items: center;
 }
 
 .histo {
   height: 100%;
   width: 100%;
   display: flex;
-  color: white;
-  background-color: #001d3d;
   flex-direction: column;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 20px;
-  font-weight: 700;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  /* font-size: 20px; */
+  /* font-weight: 700; */
   overflow:scroll
 }
+
+/**
+ * RESULTAT DE LA RECHERCHE
+ */
+.detailDiv {
+  width: 66.6666666666%;
+  /* height: 98vh; */
+  display: flex;
+  flex-direction: column;
+  /* background-color: aquamarine; */
+}
+
+
+
 
 .detail {
   height: 100%;
@@ -54,6 +83,17 @@
   flex-direction: column;
 }
 
+
+.description {
+  height: 100%; 
+  background-color: white; 
+  padding: 20px;
+  overflow:scroll
+}
+
+/**
+ * SEARCH
+ */
 .search {
   height: 100px;
   width: 100%;
@@ -62,34 +102,50 @@
   align-items: center;
   /* justify-content: space-evenly; */
   /* padding-top: 6px; */
-  background-color: red;
-}
-
-.header {
-  height: 8vh;
-  width: 100%;
-  background-color: grey;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
-
-.description {
-  height: 82vh;
-  width: 90%;
-  /* background-color: red; */
-  padding: 20px;
-  overflow:scroll
-}
-
-.p {
-  font-size: 20px;
-  font-weight: 900;
-  padding-left: 2px;
 }
 
 .divider{
   height: 1px;
   width: 100%;
   background-color:rgb(171, 171, 171) ;
+}
+
+/*
+ * COLORS HELPER
+  */
+.color000814{
+  color: #000814;
+}
+.color001D3D{
+  color:#001d3d;
+}
+.color003566{
+  color:#003566;
+}
+.colorFFC300{
+  color:#ffc300;
+}
+.colorDDF60A{
+  color:#ffd60a;
+}
+.colorWhite{
+  color: white;
+}
+.backgroundColor000814{
+  background-color: #000814;
+}
+.backgroundColor001D3D{
+  background-color:#001d3d;
+}
+.backgroundColor003566{
+  background-color:#003566;
+}
+.backgroundColorFFC300{
+  background-color:#ffc300;
+}
+.backgroundColorFFD60A{
+  background-color:#ffd60a;
+}
+.backgroundColorWhite{
+  background-color: white;
 }
