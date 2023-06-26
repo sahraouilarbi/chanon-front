@@ -25,16 +25,17 @@ export default function Home() {
 
   async function onSubmit() {
     // Function to handle form submission
+    console.log('### onSubmit');
     await axios.get('http://localhost:5000/fetch-all-data').then((response) => {
-      console.log(response.data.data);
+      console.log('### onSubmit',response.data.data);
       setData(response.data.data);
-      console.log('data', data);
+      console.log('### onSubmit - data', data);
       setFormData({
         labelname: ''
       });
       setIsSend(false);
     }).catch((error) => {
-      console.log('Error  ', error);
+      console.log('### onSubmit - Error  ', error);
     })
   }
 
@@ -69,31 +70,37 @@ export default function Home() {
   const filter = async e => {
     // Function to handle filtering
     e.preventDefault();
-    console.log('label name : ', labelname);
+    console.log('### filter - label name : ', labelname);
     await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}`).then((response) => {
-      console.log('response', response);
+      console.log('### filter - response', response);
       setData(response.data.data);
-      console.log('data', data);
+      console.log('### filter - data', data);
       setIsSend(true);
       infoBox();
     }).catch((error) => {
-      console.log('Error  ', error);
+      console.log('### filter - Error  ', error);
     })
   }
 
 
   const infoBox = async e => {
     // Function to handle displaying detailed message
-    e.preventDefault();
-    console.log('label name : ', labelname);
+    
+    // e.preventDefault();
+    console.log('### infoBox - label name : ', labelname);
     await axios.get(`http://localhost:5000/api/scrap?name=${labelname}&lng=${lnge}`).then((response) => {
-      console.log('response', response.data);
+      
+      console.log('### infoBox - response', response);
+      console.log('##########################')
+      console.log('### infoBox - response.data', response.data);
       setMesgDetail(response.data);
+      //
       // setData(response.data.data);
-      // console.log('data', data);
+      // setData(response.data.data);
       // setIsSend(true);
+      //
     }).catch((error) => {
-      console.log('Error  ', error);
+      console.log('infoBox - Error  ', error);
     })
   }
 
@@ -180,20 +187,22 @@ export default function Home() {
           <div className={homeStyles.histo}>
             <h3 className={homeStyles.h3}>Historique</h3>
             {
+              data != null ?
               data.map((m, ind) => {
                 return (
                   <div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
-                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}</p>
+                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}&nbsp;</p>
+                        <p style={{ fontSize: "12px", fontWeight: '300' }}>(&nbsp;{m['lng']}&nbsp;)</p>
                       </div>
-                      <p style={{ fontSize: "12px", fontWeight: '300' }}>{m['lng']}</p>
                     </div>
                     <div className={homeStyles.divider} />
                   </div>
                 )
-              })
+              }) 
+              : console.log('### data.map est null') 
             }
           </div>
           {/* histo */}
@@ -223,7 +232,8 @@ export default function Home() {
               
               // onKeyDown={handleKeyDownRoll}
             />
-            <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm">
+            {/* <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm"> */}
+            <IconButton onClick={isSend ? onSubmit : filter} color="primary" aria-label="add an alarm">
               {
                 isSend ? <ClearIcon /> : <SendIcon />
               }
