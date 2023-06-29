@@ -1,3 +1,4 @@
+import React from 'react'
 import Meta from '../component/Meta'
 import ChanonCharts from '../component/ChanonCharts';
 import { dividerClasses } from "@mui/material"
@@ -5,10 +6,12 @@ import { dividerClasses } from "@mui/material"
 const graphs =()=>{
     return (
         <div>
-            <Meta title='Graphs' />
-            <h1>Graphs</h1>
-            <hr/>
-            <ChanonCharts />
+            <React.StrictMode>
+                <Meta title='Graphs' />
+                <h1>Graphs</h1>
+                <hr/>
+                <ChanonCharts />
+            </React.StrictMode>
         </div>
     )
 }
