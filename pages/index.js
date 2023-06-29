@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import homeStyles from '../styles/Home.module.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import AlarmIcon from '@mui/icons-material/Alarm';
@@ -108,6 +108,7 @@ export default function Home() {
 
   return (
     <div className={homeStyles.main}>
+      <React.StrictMode>
       {/* ----------------------------- APP META HEADER ------------------- */}
       <Head>
         <title>Chanon Project</title>
@@ -190,7 +191,7 @@ export default function Home() {
               data != null ?
               data.map((m, ind) => {
                 return (
-                  <div>
+                  <div key={ind}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
@@ -244,6 +245,7 @@ export default function Home() {
         {/* detailDiv */}
       </div>
       {/* test */}
+      </React.StrictMode>
     </div>
   )
 }
