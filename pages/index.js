@@ -25,11 +25,8 @@ export default function Home() {
 
   async function onSubmit() {
     // Function to handle form submission
-    console.log('### onSubmit');
     await axios.get('http://localhost:5000/fetch-all-data').then((response) => {
-      console.log('### onSubmit',response.data.data);
       setData(response.data.data);
-      console.log('### onSubmit - data', data);
       setFormData({
         labelname: ''
       });
@@ -45,7 +42,7 @@ export default function Home() {
   const openLnge = Boolean(anchorElLnge);
   const openDate = Boolean(anchorElDate);
   const [lnge, setLnge] = useState('ar');
-  const [dateIntervale, setDate] = useState('2016');
+  const [year, setYear] = useState('2016');
   const handleClickLnge = (event) => {
     setAnchorElLnge(event.currentTarget);
   };
@@ -57,7 +54,7 @@ export default function Home() {
     setAnchorElDate(event.currentTarget);
   };
   const handleCloseDate = (er) => {
-    setDate(er);
+    setYear(er);
     setAnchorElDate(null);
   };
 
@@ -70,11 +67,11 @@ export default function Home() {
   const filter = async e => {
     // Function to handle filtering
     e.preventDefault();
-    console.log('### filter - label name : ', labelname);
-    await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}`).then((response) => {
-      console.log('### filter - response', response);
+    console.log('### filter - labelname : ', labelname);
+    console.log('### filter - lnge : ', lnge);
+    console.log('### filter - year : ', year);
+    await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}&year=${year}`).then((response) => {
       setData(response.data.data);
-      console.log('### filter - data', data);
       setIsSend(true);
       infoBox();
     }).catch((error) => {
@@ -87,12 +84,7 @@ export default function Home() {
     // Function to handle displaying detailed message
     
     // e.preventDefault();
-    console.log('### infoBox - label name : ', labelname);
     await axios.get(`http://localhost:5000/api/scrap?name=${labelname}&lng=${lnge}`).then((response) => {
-      
-      console.log('### infoBox - response', response);
-      console.log('##########################')
-      console.log('### infoBox - response.data', response.data);
       setMesgDetail(response.data);
       //
       // setData(response.data.data);
@@ -133,7 +125,7 @@ export default function Home() {
                 onClick={handleClickDate}
                 style={{color: 'white' , fontWeight: 'bold' }}
               >
-                {dateIntervale} <span>&#x25BC;</span>
+                {year} <span>&#x25BC;</span>
               </Button>
               <Menu
                 id="date-menu"
@@ -233,7 +225,6 @@ export default function Home() {
               
               // onKeyDown={handleKeyDownRoll}
             />
-            {/* <IconButton onClick={isSend ? onSubmit : infoBox} color="primary" aria-label="add an alarm"> */}
             <IconButton onClick={isSend ? onSubmit : filter} color="primary" aria-label="add an alarm">
               {
                 isSend ? <ClearIcon /> : <SendIcon />
