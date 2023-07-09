@@ -1,16 +1,20 @@
 import React from 'react'
 import Meta from '../component/Meta'
 import ChanonCharts from '../component/ChanonCharts';
-import { dividerClasses } from "@mui/material"
+import { useRouter } from 'next/router';
+import { dividerClasses } from "@mui/material";
 
 const graphs =()=>{
+    const router = useRouter();
+    const { id } = router.query;
+
     return (
         <div>
             <React.StrictMode>
                 <Meta title='Graphs' />
                 <h1>Graphs</h1>
                 <hr/>
-                <ChanonCharts />
+                <ChanonCharts id={id} />
             </React.StrictMode>
         </div>
     )

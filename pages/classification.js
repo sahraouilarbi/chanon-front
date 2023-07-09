@@ -7,6 +7,7 @@ import classificationStyle from '../styles/Classification.module.css';
 import { dividerClasses } from "@mui/material";
 import { LabelRounded } from '@mui/icons-material';
 import YearSelector from '../component/YearSelector';
+import Link from 'next/link';
 
 const API_URL = 'http://localhost:5000/api/classification';
 
@@ -118,7 +119,12 @@ const classification = ()=>{
                                             <tr key={item['_id']} className={classificationStyle.tr}>
                                                 <td className={classificationStyle.td}>{index + indexOfFirstData + 1 }</td>
                                                 <td className={classificationStyle.td}>{item['labelprolexme']}</td>
-                                                <td className={classificationStyle.td}>{item['frenq']}</td>
+                                                <td className={classificationStyle.td}>
+                                                    {item['frenq']}
+                                                    <Link href={`/graphs?id=${item['_id']}`} passHref>
+                                                        <button>View Graph</button>
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
