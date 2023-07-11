@@ -6,14 +6,14 @@
   font-size: 1.5rem;
   font-weight: 700;
 }
-.main{
+.main {
   width: 100%;
   height: 90vh;
 }
 .header {
   width: 100%;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -25,7 +25,6 @@
   justify-content: start;
   align-items: center;
 }
-
 
 .containerFullWidth {
   height: 85%;
@@ -56,7 +55,7 @@
   padding-right: 1rem;
   /* font-size: 20px; */
   /* font-weight: 700; */
-  overflow:scroll
+  overflow: scroll;
 }
 
 /**
@@ -69,9 +68,6 @@
   /* background-color: aquamarine; */
 }
 
-
-
-
 .detail {
   height: 100%;
   width: 100%;
@@ -79,12 +75,11 @@
   flex-direction: column;
 }
 
-
 .description {
-  height: 100%; 
-  background-color: white; 
+  height: 100%;
+  background-color: white;
   padding: 20px;
-  overflow:scroll
+  overflow: scroll;
 }
 
 /**
@@ -100,48 +95,48 @@
   /* padding-top: 6px; */
 }
 
-.divider{
+.divider {
   height: 1px;
   width: 100%;
-  background-color:rgb(171, 171, 171) ;
+  background-color: rgb(171, 171, 171);
 }
 
 /*
  * COLORS HELPER
   */
-.color000814{
+.color000814 {
   color: #000814;
 }
-.color001D3D{
-  color:#001d3d;
+.color001D3D {
+  color: #001d3d;
 }
-.color003566{
-  color:#003566;
+.color003566 {
+  color: #003566;
 }
-.colorFFC300{
-  color:#ffc300;
+.colorFFC300 {
+  color: #ffc300;
 }
-.colorDDF60A{
-  color:#ffd60a;
+.colorDDF60A {
+  color: #ffd60a;
 }
-.colorWhite{
+.colorWhite {
   color: white;
 }
-.backgroundColor000814{
+.backgroundColor000814 {
   background-color: #000814;
 }
-.backgroundColor001D3D{
-  background-color:#001d3d;
+.backgroundColor001D3D {
+  background-color: #001d3d;
 }
-.backgroundColor003566{
-  background-color:#003566;
+.backgroundColor003566 {
+  background-color: #003566;
 }
-.backgroundColorFFC300{
-  background-color:#ffc300;
+.backgroundColorFFC300 {
+  background-color: #ffc300;
 }
-.backgroundColorFFD60A{
-  background-color:#ffd60a;
+.backgroundColorFFD60A {
+  background-color: #ffd60a;
 }
-.backgroundColorWhite{
+.backgroundColorWhite {
   background-color: white;
 }

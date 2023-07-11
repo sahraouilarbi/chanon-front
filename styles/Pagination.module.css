@@ -1,63 +1,63 @@
 .pagination {
-    display: inline-block;
-    padding-left: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 0.25rem;
-    margin-right: auto;
-    margin-left: auto;
+  display: inline-block;
+  padding-left: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .pageItem {
-    display: inline;
+  display: inline;
 }
 
 .pageItem:first-child .pageLink {
-    margin-left: 0;
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+  margin-left: 0;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 
-.pageItem:last-child .pageLink{
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+.pageItem:last-child .pageLink {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 
 .pageItem.active .pageLink,
 .pageItem.active .pageLink:focus,
 .pageItem.active .pageLink:hover {
-    z-index: 2;
-    color: white;
-    cursor: default;
-    background-color: #5CB85C;
-    border-color: #5CB85C;
+  z-index: 2;
+  color: white;
+  cursor: default;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
 }
 
 .pageItem.disabled .pageLink,
 .pageItem.disabled .pageLink:focus,
 .pageItem.disabled .pageLink:hover {
-    color: #818A91;
-    pointer-events: none;
-    cursor: not-allowed;
-    background-color: white;
-    border-color: #DDD;
+  color: #818a91;
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: white;
+  border-color: #ddd;
 }
 
 .pageLink {
-    position: relative;
-    float: left;
-    padding: 0.5rem 0.75rem;
-    margin-left: -1px;
-    color: #5CB85C;
-    text-decoration: none;
-    background-color: white;
-    border: 1px solid #DDD;
-    cursor: pointer;
+  position: relative;
+  float: left;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  color: #5cb85c;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid #ddd;
+  cursor: pointer;
 }
 
 .pageLink:focus,
 .pageLink:hover {
-    color: #3D8B3D;
-    background-color: #ECEEE7;
-    border-color: #DDD;
+  color: #3d8b3d;
+  background-color: #eceee7;
+  border-color: #ddd;
 }

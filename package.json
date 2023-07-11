@@ -4,7 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prettier":"prettier --write ."
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",

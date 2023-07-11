@@ -96,7 +96,20 @@ export default function Home() {
     })
   }
 
-
+  function getPlaceholder(language) {
+    switch (language){
+      case 'ar':
+        return 'ابحث ...';
+      case 'en':
+        return 'Search ...';
+      case 'es':
+        return 'Buscar ...';
+      case 'fr':
+        return 'Rechercher ...';
+      default:
+        return '...';
+    }
+  }
 
   return (
     <div className={homeStyles.main}>
@@ -169,6 +182,7 @@ export default function Home() {
                 <MenuItem onClick={() => handleCloseLnge('ar')}>Arabic</MenuItem>
                 <MenuItem onClick={() => handleCloseLnge('fr')}>French</MenuItem>
                 <MenuItem onClick={() => handleCloseLnge('en')}>English</MenuItem>
+                <MenuItem onClick={() => handleCloseLnge('es')}>Spanish</MenuItem>
               </Menu>
         </div>
       </div>
@@ -216,7 +230,8 @@ export default function Home() {
               name='labelname'
               type='text'
               id='labelname'
-              placeholder={lnge=='en' ? 'Search ...' : lnge=='fr' ? 'Rechercher ...' : 'ابحث ...'}
+              //placeholder={lnge=='en' ? 'Search ...' : lnge=='fr' ? 'Rechercher ...' : 'ابحث ...'}
+              placeholder={getPlaceholder(lnge)}
               dir={lnge=='ar' ? 'rtl' : 'ltr'}
               onChange={onChange}
               value={labelname}
