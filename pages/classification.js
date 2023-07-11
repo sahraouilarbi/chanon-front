@@ -14,7 +14,7 @@ const API_URL = 'http://localhost:5000/api/classification';
 const classification = () => {
   // State variables
   const [data, setData] = useState([]); // Stores the fetched data
-  const [sortedData, setSortedData] = useState([]); // Sorted data sorted by frenq
+  //const [sortedData, setSortedData] = useState([]); // Sorted data sorted by frenq
   const [filteredData, setFilteredData] = useState([]); // Stores filtered data
   const [dataPerPage, setDataPerPage] = useState(20); // Number of data items to display per page
   const [currentPage, setCurrentPage] = useState(1); // Current page number
@@ -27,17 +27,22 @@ const classification = () => {
     // Fetches the data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(API_URL, {
+          params: {
+            language: language, // Pass the selected language as a query parameter
+            year: year, // Pass the selected year as a query parameter
+          }
+        });
 
-        const _data = response.data.data;
-        setData(_data);
-        console.log(_data.length);
+        const data = response.data.data;
+        console.log('@@ data', data);
+        setData(data);
 
-        const sortedData = _data.sort((a, b) => b.frenq - a.frenq);
-        setSortedData(sortedData);
-        console.log(sortedData.length);
+        // const sortedData = _data.sort((a, b) => b.frenq - a.frenq);
+        // setSortedData(sortedData);
 
-        setFilteredData(sortedData);
+        // setFilteredData(sortedData);
+
       } catch (error) {
         console.log('### fetchData - Error', error);
       }
@@ -48,7 +53,8 @@ const classification = () => {
 
   // Funtion to filter data
   const filterData = (filterFn) => {
-    const filteredElements = sortedData.filter(filterFn);
+    //const filteredElements = sortedData.filter(filterFn);
+    const filteredElements = data.filter(filterFn);
     setFilteredData(filteredElements);
     setCurrentPage(1);
   };
@@ -120,7 +126,8 @@ const classification = () => {
                       {item['labelprolexme']}
                     </td>
                     <td className={classificationStyle.td}>
-                      {item['frenq']}
+                      {item['frenq']} 
+                      &nbsp;
                       <Link href={`/graphs?id=${item['_id']}`} passHref>
                         <button>View Graph</button>
                       </Link>

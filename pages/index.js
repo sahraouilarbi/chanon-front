@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { languages, years } from '../constants';
 import { Typewriter } from 'react-simple-typewriter';
 export default function Home() {
   // State variables
@@ -106,6 +107,8 @@ export default function Home() {
         return 'Buscar ...';
       case 'fr':
         return 'Rechercher ...';
+      case 'pl':
+        return 'Do badań ...';
       default:
         return '...';
     }
@@ -148,13 +151,13 @@ export default function Home() {
                   'aria-labelledby': 'date-button',
                 }}
               >
-                <MenuItem onClick={() => handleCloseDate('2022')}>2022</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2021')}>2021</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2020')}>2020</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2019')}>2019</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2018')}>2018</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2017')}>2017</MenuItem>
-                <MenuItem onClick={() => handleCloseDate('2016')}>2016</MenuItem>
+                {
+                  years.map(
+                    (item)=> (
+                      <MenuItem key={item.key} onClick={() => handleCloseDate(item.key)}>{item.value}</MenuItem>
+                    )
+                  )
+                }
               </Menu>
         </div>
 
@@ -179,10 +182,15 @@ export default function Home() {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => handleCloseLnge('ar')}>Arabic</MenuItem>
-                <MenuItem onClick={() => handleCloseLnge('fr')}>French</MenuItem>
-                <MenuItem onClick={() => handleCloseLnge('en')}>English</MenuItem>
-                <MenuItem onClick={() => handleCloseLnge('es')}>Spanish</MenuItem>
+
+                {
+                  languages.map(
+                    (item)=> (
+                      <MenuItem key={item.key} onClick={() => handleCloseLnge(item.key)}>{item.value}</MenuItem>
+                    )
+                  )
+                }
+                
               </Menu>
         </div>
       </div>
