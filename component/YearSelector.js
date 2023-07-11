@@ -1,4 +1,5 @@
 import React from 'react';
+import { years } from '../constants';
 import classificationStyle from '../styles/Classification.module.css';
 
 const YearSelector = ({ year, onChange }) => {
@@ -12,14 +13,14 @@ const YearSelector = ({ year, onChange }) => {
           value={year}
           onChange={onChange}
         >
-          <option value="">-- Select a year --</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-          <option value="2016">2016</option>
+          <option value="" key='select_a_year'>-- Select a year --</option>
+          {
+            years.map(
+              (item) => (
+                <option key={item.key} value={item.key}>{item.value}</option>
+              )
+            )
+          }
         </select>
       </label>
     </div>

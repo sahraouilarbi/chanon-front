@@ -1,4 +1,5 @@
 import React from 'react';
+import { languages } from '../constants';
 import classificationStyle from '../styles/Classification.module.css';
 
 const LanguageSelector = ({ language, onChange }) => {
@@ -12,10 +13,14 @@ const LanguageSelector = ({ language, onChange }) => {
           value={language}
           onChange={onChange}
         >
-          <option value="">-- Select a language --</option>
-          <option value="ar">Arabic</option>
-          <option value="fr">French</option>
-          <option value="en">English</option>
+          <option key='select_a_language' value="">-- Select a language --</option>
+          {
+            languages.map(
+              (item) => (
+                <option key={item.key} value={item.key}>{item.value}</option>
+              )
+            )
+          }
         </select>
       </label>
     </div>
