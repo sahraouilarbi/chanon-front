@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import Meta from '../component/Meta';
 import LanguageSelector from '../component/LanguageSelector';
+import YearSelector from '../component/YearSelector';
 import Pagination from '../component/Pagination';
 import classificationStyle from '../styles/Classification.module.css';
 import { dividerClasses } from '@mui/material';
 import { LabelRounded } from '@mui/icons-material';
-import YearSelector from '../component/YearSelector';
-import Link from 'next/link';
 
 const API_URL = 'http://localhost:5000/api/classification';
 
 const classification = () => {
+
+  const router = useRouter();
+
   // State variables
   const [data, setData] = useState([]); // Stores the fetched data
   //const [sortedData, setSortedData] = useState([]); // Sorted data sorted by frenq
@@ -35,13 +39,7 @@ const classification = () => {
         });
 
         const data = response.data.data;
-        console.log('@@ data', data);
         setData(data);
-
-        // const sortedData = _data.sort((a, b) => b.frenq - a.frenq);
-        // setSortedData(sortedData);
-
-        // setFilteredData(sortedData);
 
       } catch (error) {
         console.log('### fetchData - Error', error);
@@ -49,11 +47,24 @@ const classification = () => {
     };
 
     fetchData();
-  }, []);
+
+    // Update the URL with the selected language and year as query parameters
+    const query = {};
+    if (language) {
+      query.lng = language;
+    }
+    if (year) {
+      query.year = year;
+    }
+
+    router.push({
+      pathname: '/classification',
+      query: query,
+    })
+  }, [language, year]);
 
   // Funtion to filter data
   const filterData = (filterFn) => {
-    //const filteredElements = sortedData.filter(filterFn);
     const filteredElements = data.filter(filterFn);
     setFilteredData(filteredElements);
     setCurrentPage(1);
@@ -106,7 +117,7 @@ const classification = () => {
           />
           <YearSelector year={year} onChange={handleYearChange} />
         </div>
-        {currentData.length > 0 ? (
+        {data.length > 0 ? (
           <div>
             <table className={classificationStyle.table}>
               <thead>
@@ -117,7 +128,7 @@ const classification = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentData.map((item, index) => (
+                {data.map((item, index) => (
                   <tr key={item['_id']} className={classificationStyle.tr}>
                     <td className={classificationStyle.td}>
                       {index + indexOfFirstData + 1}
