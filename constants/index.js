@@ -1,10 +1,10 @@
 
 export const languages = [
-    {key: 'ar', value:'Arabic'},
-    {key: 'en', value:'English'},
-    {key: 'es', value:'Spanish'},
-    {key: 'fr', value:'French'},
-    {key: 'pl', value:'Polish'},
+    {key: 'ar', value:'arabic'},
+    {key: 'en', value:'english'},
+    {key: 'es', value:'spanish'},
+    {key: 'fr', value:'french'},
+    {key: 'pl', value:'polish'},
 ]
 
 export const years = [
@@ -16,3 +16,11 @@ export const years = [
     {key: '2021', value: '2021'},
     {key: '2022', value: '2022'}
 ]
+
+export const placeholder = {
+    'ar': 'ابحث',
+    'en': 'Search',
+    'es': 'Buscar',
+    'fr': 'Rechercher',
+    'pl': 'Do badań'
+}

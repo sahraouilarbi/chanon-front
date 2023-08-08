@@ -2,12 +2,13 @@ import React from 'react';
 import { years } from '../constants';
 import classificationStyle from '../styles/Classification.module.css';
 
-const YearSelector = ({ year, onChange }) => {
+const YearSelector = ({ year, language, onChange }) => {
   return (
     <div className={classificationStyle.yearSelectorDiv}>
       <label>
         Year
         <select
+        disabled={!language}
           id="year-select"
           className={classificationStyle.formSelect}
           value={year}

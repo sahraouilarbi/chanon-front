@@ -6,6 +6,14 @@
   font-size: 1.5rem;
   font-weight: 700;
 }
+
+.textCapitalize {
+  text-transform: capitalize;
+}
+.borderBottom {
+  border-bottom: solid 1px #EEE;
+}
+
 .main {
   width: 100%;
   height: 90vh;
@@ -22,7 +30,7 @@
   padding-left: 4rem;
   padding-right: 4rem;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -65,7 +73,6 @@
   width: 66.6666666666%;
   display: flex;
   flex-direction: column;
-  /* background-color: aquamarine; */
 }
 
 .detail {
@@ -91,8 +98,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* justify-content: space-evenly; */
-  /* padding-top: 6px; */
 }
 
 .divider {

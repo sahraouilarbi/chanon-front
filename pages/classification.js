@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { languages } from '../constants'
 import Meta from '../component/Meta';
 import LanguageSelector from '../component/LanguageSelector';
 import YearSelector from '../component/YearSelector';
@@ -106,16 +107,20 @@ const classification = () => {
     <div>
       <React.StrictMode>
         <Meta title="Classification" />
-        <heade>
+        <header>
           <h1>Classification</h1>
-        </heade>
+        </header>
         <hr />
         <div className={classificationStyle.divOptions}>
           <LanguageSelector
             language={language}
             onChange={handleLanguageChange}
           />
-          <YearSelector year={year} onChange={handleYearChange} />
+          <YearSelector 
+            year={year} 
+            language={language} 
+            onChange={handleYearChange} 
+          />
         </div>
         {data.length > 0 ? (
           <div>
@@ -125,10 +130,21 @@ const classification = () => {
                   <th className={classificationStyle.th}>N°</th>
                   <th className={classificationStyle.th}>Name</th>
                   <th className={classificationStyle.th}>Notoriety</th>
+                  <th className={classificationStyle.th}>Graph</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, index) => (
+                {data.map((item, index) => {
+                  const notoriety = {};
+                  languages.forEach(lang=>{
+                    const key = lang.key;
+                    const value = lang.value;
+                    if(item[value]){
+                      notoriety[`${key}`] = `${item[value].year_views.map((_years) => { return (_years.notoriety) })}`;
+                      console.log(notoriety);
+                    }
+                  });
+                  return (
                   <tr key={item['_id']} className={classificationStyle.tr}>
                     <td className={classificationStyle.td}>
                       {index + indexOfFirstData + 1}
@@ -137,14 +153,24 @@ const classification = () => {
                       {item['labelprolexme']}
                     </td>
                     <td className={classificationStyle.td}>
-                      {item['frenq']} 
-                      &nbsp;
-                      <Link href={`/graphs?id=${item['_id']}`} passHref>
-                        <button>View Graph</button>
-                      </Link>
+                      { 
+                        Object.entries(notoriety).map(((k, v) => { 
+                          return (
+                          <span key={k+v}>({k[0]}:{k[1]})</span>)
+                        }))
+                      }
+                    </td>
+                    <td className={classificationStyle.td}>
+                    {
+                      language 
+                        ? <Link href={`/graphs?id=${item['_id']}&labelprolexme=${item['labelprolexme']}&lng=${language}`} passHref>
+                            <button>View Graph</button>
+                          </Link>
+                        : <span>&nbsp;</span>
+                    }
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -152,7 +178,8 @@ const classification = () => {
           <p>Aucune donnée a affiché!</p>
         )}
         <p style={{ textAlign: 'right' }}>
-          {filteredData.length} / {data.length} Elements
+          {/* {filteredData.length} / {data.length} Elements */}
+          {data.length} Elements
         </p>
         <hr />
         <div className={classificationStyle.pagination}>

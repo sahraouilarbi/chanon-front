@@ -10,23 +10,13 @@ import {
   YAxis,
 } from 'recharts';
 
-const data = [
-  { annee: '2016', frenq: '1' },
-  { annee: '2017', frenq: '2' },
-  { annee: '2018', frenq: '2' },
-  { annee: '2019', frenq: '3' },
-  { annee: '2020', frenq: '2' },
-  { annee: '2021', frenq: '3' },
-  { annee: '2022', frenq: '3' },
-];
-
-const ChanonCharts = ({ id }) => {
+const ChanonCharts = ({ id, lng }) => {
   const [yearViewsData, setYearViewsData] = useState([]);
   useEffect(() => {
     const fetchYearViewsData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/getrecordbyid?id=${id}`
+          `http://localhost:5000/api/getrecordbyid?id=${id}&lng=${lng}`
         );
         const records = response.data.data;
         console.log('@@ records', records);
@@ -34,19 +24,17 @@ const ChanonCharts = ({ id }) => {
           console.table(records);
           setYearViewsData(records);
         }
-      } catch (error) {
-        console.log('Error fetching year views data :', error);
+      } catch (err) {
+        console.error('Error fetching year views data :', err);
       }
     };
-
     fetchYearViewsData();
   }, [id]);
-  console.log('@@ yearViewsData', yearViewsData);
   return (
     <LineChart width={600} height={300} data={yearViewsData}>
       <Line
         type="monotone"
-        dataKey="views_average"
+        dataKey="notoriety"
         stroke="#8884D8"
         strokeWidth={2}
       />

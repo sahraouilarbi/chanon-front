@@ -1,17 +1,18 @@
 import Head from 'next/head';
-import homeStyles from '../styles/Home.module.css';
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import IconButton from '@mui/material/IconButton';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import SendIcon from '@mui/icons-material/Send';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { languages, years } from '../constants';
+import SendIcon from '@mui/icons-material/Send';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import React, { useEffect, useState } from 'react';
+import homeStyles from '../styles/Home.module.css';
+import { languages, placeholder, years } from '../constants';
 import { Typewriter } from 'react-simple-typewriter';
+import { Transform } from '@mui/icons-material';
 export default function Home() {
   // State variables
   const [data, setData] = useState([]); // State for storing fetched data
@@ -42,8 +43,8 @@ export default function Home() {
   const [anchorElDate, setAnchorElDate] = useState(null);
   const openLnge = Boolean(anchorElLnge);
   const openDate = Boolean(anchorElDate);
-  const [lnge, setLnge] = useState('ar');
-  const [year, setYear] = useState('2016');
+  const [lnge, setLnge] = useState('en');
+  const [year, setYear] = useState('2022');
   const handleClickLnge = (event) => {
     setAnchorElLnge(event.currentTarget);
   };
@@ -67,17 +68,17 @@ export default function Home() {
 
   const filter = async e => {
     // Function to handle filtering
+
     e.preventDefault();
-    console.log('### filter - labelname : ', labelname);
-    console.log('### filter - lnge : ', lnge);
-    console.log('### filter - year : ', year);
-    await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}&year=${year}`).then((response) => {
-      setData(response.data.data);
-      setIsSend(true);
-      infoBox();
-    }).catch((error) => {
-      console.log('### filter - Error  ', error);
-    })
+    if ( labelname!='' ){
+      await axios.get(`http://localhost:5000/filter?labelprolexme=${labelname}&lng=${lnge}&year=${year}`).then((response) => {
+        setData(response.data.data);
+        setIsSend(true);
+        infoBox();
+      }).catch((error) => {
+        console.log('### filter - Error  ', error);
+      })
+    }
   }
 
 
@@ -98,20 +99,7 @@ export default function Home() {
   }
 
   function getPlaceholder(language) {
-    switch (language){
-      case 'ar':
-        return 'ابحث ...';
-      case 'en':
-        return 'Search ...';
-      case 'es':
-        return 'Buscar ...';
-      case 'fr':
-        return 'Rechercher ...';
-      case 'pl':
-        return 'Do badań ...';
-      default:
-        return '...';
-    }
+    return placeholder[language] + ' ...' || '...';
   }
 
   return (
@@ -154,7 +142,7 @@ export default function Home() {
                 {
                   years.map(
                     (item)=> (
-                      <MenuItem key={item.key} onClick={() => handleCloseDate(item.key)}>{item.value}</MenuItem>
+                      <MenuItem className={`${homeStyles.borderBottom}`} key={item.key} onClick={() => handleCloseDate(item.key)}>{item.value}</MenuItem>
                     )
                   )
                 }
@@ -186,7 +174,7 @@ export default function Home() {
                 {
                   languages.map(
                     (item)=> (
-                      <MenuItem key={item.key} onClick={() => handleCloseLnge(item.key)}>{item.value}</MenuItem>
+                      <MenuItem className={`${homeStyles.textCapitalize} ${homeStyles.borderBottom}`} key={item.key} onClick={() => handleCloseLnge(item.key)}>{item.value}</MenuItem>
                     )
                   )
                 }
@@ -202,21 +190,28 @@ export default function Home() {
           <div className={homeStyles.histo}>
             <h3 className={homeStyles.h3}>Historique</h3>
             {
-              data != null ?
-              data.map((m, ind) => {
+              data != null 
+              ? data.map((m, ind) => {
+                const translations = [];
+
+                languages.forEach(lang=>{
+                  const key = lang.value;
+                  if(m[key]) {
+                    translations.push(`(${m[key].lng})`);
+                  }
+                });
                 return (
                   <div key={ind}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
                         <p style={{ fontSize: "14px" }}>{m['labelprolexme']}&nbsp;</p>
-                        <p style={{ fontSize: "12px", fontWeight: '300' }}>(&nbsp;{m['lng']}&nbsp;)</p>
+                        {translations.map(t=><p key={t} style={{ fontSize: "12px", fontWeight: '300' }}>{t}</p>)}
                       </div>
                     </div>
-                    <div className={homeStyles.divider} />
                   </div>
-                )
-              }) 
+                );
+              })
               : console.log('### data.map est null') 
             }
           </div>
