@@ -13,6 +13,8 @@ import homeStyles from '../styles/Home.module.css';
 import { languages, placeholder, years } from '../constants';
 import { Typewriter } from 'react-simple-typewriter';
 import { Transform } from '@mui/icons-material';
+
+const themeMemoire = 'Classification des entités nommées';
 export default function Home() {
   // State variables
   const [data, setData] = useState([]); // State for storing fetched data
@@ -107,7 +109,7 @@ export default function Home() {
       <React.StrictMode>
       {/* ----------------------------- APP META HEADER ------------------- */}
       <Head>
-        <title>Chanon Project</title>
+        <title>{themeMemoire}</title>
       </Head>
 
       {/* ----------------------------- VIEWPORT HEADER ------------------- */}
@@ -115,7 +117,7 @@ export default function Home() {
         <div>
           {/* ------------------------- PROJECT NAME ---------------------- */}
           <div className={homeStyles.headerTitle}>
-            <h2 className={homeStyles.h2}>Chanon - Project</h2>
+            <h2 className={homeStyles.h2}>{themeMemoire}</h2>
           </div>
         </div>
 
@@ -221,7 +223,7 @@ export default function Home() {
         <div className={homeStyles.detailDiv}>
           <div className={homeStyles.detail}>
             <div className={homeStyles.description}>
-              <h2>{labelname} :</h2>
+              <h2>{labelname} {labelname ? ':' : null}</h2>
               <span>{detailMsg}</span>
             </div>
             {/* description */}

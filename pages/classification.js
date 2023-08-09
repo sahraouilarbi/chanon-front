@@ -10,6 +10,8 @@ import Pagination from '../component/Pagination';
 import classificationStyle from '../styles/Classification.module.css';
 import { dividerClasses } from '@mui/material';
 import { LabelRounded } from '@mui/icons-material';
+import ViewGraphButton from '../component/ViewGraphButton';
+import ViewNotority from '../component/ViewNotoriety';
 
 const API_URL = 'http://localhost:5000/api/classification';
 
@@ -136,12 +138,17 @@ const classification = () => {
               <tbody>
                 {data.map((item, index) => {
                   const notoriety = {};
-                  languages.forEach(lang=>{
+                  languages.forEach(lang => {
                     const key = lang.key;
                     const value = lang.value;
-                    if(item[value]){
-                      notoriety[`${key}`] = `${item[value].year_views.map((_years) => { return (_years.notoriety) })}`;
-                      console.log(notoriety);
+                    if(item[value] && year){
+                      notoriety[`${key}`] = `${item[value].year_views.map((_years) => { 
+                        if (_years.year === year) {
+                          return (_years.notoriety)
+                        } else {
+                          return null;
+                        } 
+                      })}`;
                     }
                   });
                   return (
@@ -153,21 +160,17 @@ const classification = () => {
                       {item['labelprolexme']}
                     </td>
                     <td className={classificationStyle.td}>
-                      { 
-                        Object.entries(notoriety).map(((k, v) => { 
-                          return (
-                          <span key={k+v}>({k[0]}:{k[1]})</span>)
-                        }))
+                      { language && year
+                        ? <ViewNotority language={language} notoriety={notoriety}></ViewNotority>
+                        : <span>&nbsp;</span>
                       }
                     </td>
                     <td className={classificationStyle.td}>
-                    {
-                      language 
-                        ? <Link href={`/graphs?id=${item['_id']}&labelprolexme=${item['labelprolexme']}&lng=${language}`} passHref>
-                            <button>View Graph</button>
-                          </Link>
-                        : <span>&nbsp;</span>
-                    }
+                      <ViewGraphButton 
+                        id={`${item['_id']}`} 
+                        labelprolexme={`${item['labelprolexme']}`} 
+                        language={language}>
+                      </ViewGraphButton>
                     </td>
                   </tr>
                 )})}

@@ -1,10 +1,10 @@
 import headerStyle from '../styles/Header.module.css';
 
-const Header = () => {
+const Header = ( themeMemoire) => {
   return (
     <div>
       <h1 className={headerStyle.title}>
-        <span>Chanon</span> Project
+        <span>{themeMemoire}</span>
       </h1>
       <p className={headerStyle.description}>Description</p>
     </div>
