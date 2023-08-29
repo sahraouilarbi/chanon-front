@@ -19,6 +19,7 @@ export default function Home() {
   // State variables
   const [data, setData] = useState([]); // State for storing fetched data
   const [isSend, setIsSend] = useState(false); // State for determining if the search button is for sending or clearing
+  const [isCharged, setIsCharged] = useState(false); // State for charging randomly an entity from db
   const [formData, setFormData] = useState({
     labelname: ''
   }); // State for form data
@@ -35,8 +36,8 @@ export default function Home() {
         labelname: ''
       });
       setIsSend(false);
-    }).catch((error) => {
-      console.log('### onSubmit - Error  ', error);
+    }).catch((err) => {
+      console.log('### onSubmit - Error  ', err);
     })
   }
 
@@ -77,8 +78,8 @@ export default function Home() {
         setData(response.data.data);
         setIsSend(true);
         infoBox();
-      }).catch((error) => {
-        console.log('### filter - Error  ', error);
+      }).catch((err) => {
+        console.error('### filter - Error  ', err);
       })
     }
   }
@@ -89,19 +90,31 @@ export default function Home() {
     
     // e.preventDefault();
     await axios.get(`http://localhost:5000/api/scrap?name=${labelname}&lng=${lnge}`).then((response) => {
+      console.log(response);
       setMesgDetail(response.data);
       //
       // setData(response.data.data);
       // setData(response.data.data);
       // setIsSend(true);
       //
-    }).catch((error) => {
-      console.log('infoBox - Error  ', error);
+    }).catch((err) => {
+      console.error('infoBox - Error  ', err);
     })
   }
 
   function getPlaceholder(language) {
     return placeholder[language] + ' ...' || '...';
+  }
+
+  async function getRandomLabelname() {
+    setIsCharged(true);
+    setMesgDetail('');
+    await axios.get(`http://localhost:5000/api/getrandomlabelname?lng=${lnge}`).then((response) => {
+    setFormData({labelname: response.data.data});
+    setIsCharged(false);
+    }).catch((err) => {
+      console.error('GetLabelNameRandomly Error : ', err);
+    })
   }
 
   return (
@@ -245,6 +258,11 @@ export default function Home() {
               
               // onKeyDown={handleKeyDownRoll}
             />
+            <IconButton onClick={isCharged ? null : getRandomLabelname} color="secondary" aria-label="load a labelname">
+              {
+                isCharged ? '...'  : 'Load'
+              }
+            </IconButton>
             <IconButton onClick={isSend ? onSubmit : filter} color="primary" aria-label="add an alarm">
               {
                 isSend ? <ClearIcon /> : <SendIcon />
