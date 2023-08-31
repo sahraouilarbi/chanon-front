@@ -40,7 +40,7 @@ const ChanonCharts = ({ id, lng }) => {
       />
       <CartesianGrid stroke="#BBB" strokeDasharray="3 3" />
       <XAxis dataKey="year" />
-      <YAxis allowDecimals={false} />
+      <YAxis allowDecimals={false} domain={[0,3]}/>
       <Tooltip />
       <Legend />
     </LineChart>
