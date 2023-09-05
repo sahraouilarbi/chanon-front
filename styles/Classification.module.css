@@ -4,7 +4,8 @@
   gap: 1rem;
 }
 .languageSelectorDiv,
-.yearSelectorDiv {
+.yearSelectorDiv,
+.typeSelectorDiv {
   margin-bottom: 1rem;
 }
 .formSelect {

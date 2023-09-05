@@ -6,12 +6,14 @@ import { languages } from '../constants'
 import Meta from '../component/Meta';
 import LanguageSelector from '../component/LanguageSelector';
 import YearSelector from '../component/YearSelector';
+import TypeSelector from '../component/TypeSelector';
 import Pagination from '../component/Pagination';
 import classificationStyle from '../styles/Classification.module.css';
 import { dividerClasses } from '@mui/material';
 import { LabelRounded } from '@mui/icons-material';
 import ViewGraphButton from '../component/ViewGraphButton';
 import ViewNotority from '../component/ViewNotoriety';
+
 
 const API_URL = 'http://localhost:5000/api/classification';
 
@@ -27,8 +29,13 @@ const classification = () => {
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [language, setLanguage] = useState(''); // Selected language for filtering
   const [year, setYear] = useState(''); // Selected Year for filtering
+  const [type, setType] = useState(''); // Selected Type for filtering
   var count = 0; // Counter variable
 
+  const getLanguageValue = (key) => {
+    const language = languages.find(lang => lang.key === key);
+    return language ? language.value : null;
+  }
   // Execute when the component mounts
   useEffect(() => {
     // Fetches the data from the API
@@ -37,24 +44,47 @@ const classification = () => {
         const response = await axios.get(API_URL, {
           params: {
             language: language, // Pass the selected language as a query parameter
+            type: type, // Pass the selected type as a query parameter
             year: year, // Pass the selected year as a query parameter
           }
         });
 
         const data = response.data.data;
+        // sort data by notoriety
+        data.sort((a,b) => {
+          const lngValue = getLanguageValue(language);
+          let aNotoriety;
+          let bNotoriety;
+          if (lngValue) {
+            aNotoriety = a[lngValue].year_views.find(obj => obj.year).notoriety;
+            bNotoriety = b[lngValue].year_views.find(obj => obj.year).notoriety;
+          }
+
+          if(aNotoriety < bNotoriety) {
+            return -1;
+          }
+          if(aNotoriety > bNotoriety) {
+            return 1;
+          }
+          return 0;
+          
+        });
         setData(data);
 
-      } catch (error) {
-        console.log('### fetchData - Error', error);
+      } catch (err) {
+        console.error('### fetchData - Error', err);
       }
     };
 
     fetchData();
 
-    // Update the URL with the selected language and year as query parameters
+    // Update the URL with the selected type, language and year as query parameters
     const query = {};
     if (language) {
       query.lng = language;
+    }
+    if (type) {
+      query.type = type;
     }
     if (year) {
       query.year = year;
@@ -64,7 +94,7 @@ const classification = () => {
       pathname: '/classification',
       query: query,
     })
-  }, [language, year]);
+  }, [type, language, year]);
 
   // Funtion to filter data
   const filterData = (filterFn) => {
@@ -95,6 +125,17 @@ const classification = () => {
     }
   };
 
+  // Filters data based on selected type 
+  const handleTypeChange = (event) => {
+    const selectedType = event.target.value;
+    setType(selectedType);
+    if (selectedType === '') {
+      setFilteredData(data);
+    } else {
+      filterData((el) => el.type === selectedType);
+    }
+  }
+
   // Calculates the index of the last and first data items to display on the current page
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
@@ -118,6 +159,11 @@ const classification = () => {
             language={language}
             onChange={handleLanguageChange}
           />
+          <TypeSelector
+            type={type}
+            language={language}
+            onChange={handleTypeChange}
+          />
           <YearSelector 
             year={year} 
             language={language} 
@@ -131,12 +177,15 @@ const classification = () => {
                 <tr>
                   <th className={classificationStyle.th}>N°</th>
                   <th className={classificationStyle.th}>Name</th>
+                  <th className={classificationStyle.th}>Type</th>
                   <th className={classificationStyle.th}>Notoriety</th>
                   <th className={classificationStyle.th}>Graph</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, index) => {
+                {
+                data.map((item, index) => {
+                  // Get Notoriety
                   const notoriety = {};
                   languages.forEach(lang => {
                     const key = lang.key;
@@ -149,8 +198,17 @@ const classification = () => {
                           return null;
                         } 
                       })}`;
+
                     }
                   });
+
+                  // Get Language value
+                  const findLanguageValue = (langKey) => {
+                    const language = languages.find( l => l.key===langKey );
+                    return language ? language.value : null;
+                  }
+                  const selectedLanguageValue = findLanguageValue(language);
+
                   return (
                   <tr key={item['_id']} className={classificationStyle.tr}>
                     <td className={classificationStyle.td}>
@@ -158,6 +216,11 @@ const classification = () => {
                     </td>
                     <td className={classificationStyle.td}>
                       {item['labelprolexme']}
+                    </td>
+                    <td className={classificationStyle.td}>
+                      { 
+                        language ? item[selectedLanguageValue]['type'] : null
+                      }
                     </td>
                     <td className={classificationStyle.td}>
                       { language && year
