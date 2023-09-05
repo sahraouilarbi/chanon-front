@@ -1,5 +1,5 @@
+import { types } from '../constants';
 import classificationStyle from '../styles/Classification.module.css';
-
 const TypeSelector = ({type, language, onChange}) => {
   return (
     <div className={classificationStyle.typeSelectorDiv}>
@@ -12,9 +12,13 @@ const TypeSelector = ({type, language, onChange}) => {
         value={type}
         onChange={onChange}>
           <option value="" key='select_a_type'>-- Select a type</option>
-          <option value="region">Region</option>
-          <option value="personality">Personality</option>
-          <option value="sport">Sport</option>
+          {
+            types.map(
+              (item) => (
+                <option key={item.key} value={item.key}>{item.value}</option>
+              )
+            )
+          }
         </select>
       </label>
     </div>

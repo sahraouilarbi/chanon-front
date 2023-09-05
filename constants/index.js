@@ -24,3 +24,14 @@ export const placeholder = {
     'fr': 'Rechercher',
     'pl': 'Do badań'
 }
+
+export const types = [
+    {key: 'actor', value: 'Actor'},
+    {key: 'personality', value: 'Personality'},
+    {key: 'politician', value: 'Politician'},
+    {key: 'region', value: 'Region'},
+    {key: 'religion', value: 'Religion'},
+    {key: 'singer', value: 'Singer'},
+    {key: 'scientist', value: 'Scientist'},
+    {key: 'sport', value: 'Sport'},
+]
