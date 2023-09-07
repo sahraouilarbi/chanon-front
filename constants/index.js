@@ -26,12 +26,18 @@ export const placeholder = {
 }
 
 export const types = [
-    {key: 'actor', value: 'Actor'},
-    {key: 'personality', value: 'Personality'},
+    {key: 'brand', value: 'Brand'},
+    {key: 'celebrity', value: 'Celebrity'},
+    {key: 'culture', value: 'Culture'},
+    {key: 'philosopher', value: 'Philosopher'},
     {key: 'politician', value: 'Politician'},
     {key: 'region', value: 'Region'},
     {key: 'religion', value: 'Religion'},
-    {key: 'singer', value: 'Singer'},
     {key: 'scientist', value: 'Scientist'},
+    {key: 'serie', value: 'Serie'},
+    {key: 'singer', value: 'Singer'},
     {key: 'sport', value: 'Sport'},
+    {key: 'technology', value: 'Technology'},
+    {key: 'university', value: 'University'},
+    {key: 'unknow', value: 'Unknow'},
 ]

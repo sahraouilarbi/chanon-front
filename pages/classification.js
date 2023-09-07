@@ -177,7 +177,6 @@ const classification = () => {
                 <tr>
                   <th className={classificationStyle.th}>N°</th>
                   <th className={classificationStyle.th}>Name</th>
-                  <th className={classificationStyle.th}>Type</th>
                   <th className={classificationStyle.th}>Notoriety</th>
                   <th className={classificationStyle.th}>Graph</th>
                 </tr>
@@ -191,14 +190,14 @@ const classification = () => {
                     const key = lang.key;
                     const value = lang.value;
                     if(item[value] && year){
-                      notoriety[`${key}`] = `${item[value].year_views.map((_years) => { 
+                      notoriety[`${key}`] = `${item[value].year_views.map((_years) => {
+                        // _years.year === year ? _years.notoriety : null; 
                         if (_years.year === year) {
                           return (_years.notoriety)
                         } else {
                           return null;
                         } 
                       })}`;
-
                     }
                   });
 
@@ -208,6 +207,12 @@ const classification = () => {
                     return language ? language.value : null;
                   }
                   const selectedLanguageValue = findLanguageValue(language);
+                  const typeInMongodb = [];
+                  if (language){
+                    if (item[selectedLanguageValue] != undefined){
+                      console.log(language, item['labelprolexme'],item[selectedLanguageValue])
+                    }
+                  }
 
                   return (
                   <tr key={item['_id']} className={classificationStyle.tr}>
@@ -216,11 +221,6 @@ const classification = () => {
                     </td>
                     <td className={classificationStyle.td}>
                       {item['labelprolexme']}
-                    </td>
-                    <td className={classificationStyle.td}>
-                      { 
-                        language ? item[selectedLanguageValue]['type'] : null
-                      }
                     </td>
                     <td className={classificationStyle.td}>
                       { language && year
