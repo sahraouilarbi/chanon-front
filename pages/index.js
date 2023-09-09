@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import axios from 'axios';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import Button from '@mui/material/Button';
@@ -117,6 +118,11 @@ export default function Home() {
     })
   }
 
+  function setLabelprolexemeFromHistorique(label) {
+    setMesgDetail('');
+    setFormData({labelname: label});
+  }
+
   return (
     <div className={homeStyles.main}>
       <React.StrictMode>
@@ -220,7 +226,7 @@ export default function Home() {
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <ChatBubbleOutlineOutlinedIcon fontSize='small' style={{ marginRight: '5px' }} />
-                        <p style={{ fontSize: "14px" }}>{m['labelprolexme']}&nbsp;</p>
+                        <p style={{ fontSize: "14px" }}><button onClick={ () => {setLabelprolexemeFromHistorique(m['labelprolexme'])} }>{m['labelprolexme']}</button>&nbsp;</p>
                         {translations.map(t=><p key={t} style={{ fontSize: "12px", fontWeight: '300' }}>{t}</p>)}
                       </div>
                     </div>
