@@ -50,26 +50,22 @@ const classification = () => {
         });
 
         const data = response.data.data;
+        setData(data);
+        
         // sort data by notoriety
-        data.sort((a,b) => {
+        const dataSortedByNotoriety = data.sort((a,b) => {
           const lngValue = getLanguageValue(language);
           let aNotoriety;
           let bNotoriety;
           if (lngValue) {
             aNotoriety = a[lngValue].year_views.find(obj => obj.year).notoriety;
             bNotoriety = b[lngValue].year_views.find(obj => obj.year).notoriety;
+            return bNotoriety - aNotoriety;
           }
-
-          if(aNotoriety < bNotoriety) {
-            return -1;
-          }
-          if(aNotoriety > bNotoriety) {
-            return 1;
-          }
-          return 0;
-          
+          return 0
         });
-        setData(data);
+
+        setFilteredData(dataSortedByNotoriety);
 
       } catch (err) {
         console.error('### fetchData - Error', err);
@@ -170,7 +166,7 @@ const classification = () => {
             onChange={handleYearChange} 
           />
         </div>
-        {data.length > 0 ? (
+        {currentData.length > 0 ? (
           <div>
             <table className={classificationStyle.table}>
               <thead>
@@ -183,7 +179,7 @@ const classification = () => {
               </thead>
               <tbody>
                 {
-                data.map((item, index) => {
+                currentData.map((item, index) => {
                   // Get Notoriety
                   const notoriety = {};
                   languages.forEach(lang => {
@@ -191,7 +187,6 @@ const classification = () => {
                     const value = lang.value;
                     if(item[value] && year){
                       notoriety[`${key}`] = `${item[value].year_views.map((_years) => {
-                        // _years.year === year ? _years.notoriety : null; 
                         if (_years.year === year) {
                           return (_years.notoriety)
                         } else {
@@ -205,13 +200,6 @@ const classification = () => {
                   const findLanguageValue = (langKey) => {
                     const language = languages.find( l => l.key===langKey );
                     return language ? language.value : null;
-                  }
-                  const selectedLanguageValue = findLanguageValue(language);
-                  const typeInMongodb = [];
-                  if (language){
-                    if (item[selectedLanguageValue] != undefined){
-                      console.log(language, item['labelprolexme'],item[selectedLanguageValue])
-                    }
                   }
 
                   return (
@@ -244,8 +232,7 @@ const classification = () => {
           <p>Aucune donnée a affiché!</p>
         )}
         <p style={{ textAlign: 'right' }}>
-          {/* {filteredData.length} / {data.length} Elements */}
-          {data.length} Elements
+          {filteredData.length} Elements
         </p>
         <hr />
         <div className={classificationStyle.pagination}>

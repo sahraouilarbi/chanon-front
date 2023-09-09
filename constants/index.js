@@ -26,6 +26,7 @@ export const placeholder = {
 }
 
 export const types = [
+    {key: 'band', value: 'Band'},
     {key: 'brand', value: 'Brand'},
     {key: 'celebrity', value: 'Celebrity'},
     {key: 'culture', value: 'Culture'},
